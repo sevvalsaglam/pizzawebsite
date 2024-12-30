@@ -2,11 +2,11 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
 import App from './App.jsx';
-import { OrderProvider } from './context/OrderContext'; // OrderProvider'ı import et
+import { OrderProvider } from './context/OrderContext'; 
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <OrderProvider> {/* Global durum yönetimi için sarmalayıcı */}
+    <OrderProvider> 
       <App />
     </OrderProvider>
   </StrictMode>,

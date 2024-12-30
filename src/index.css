@@ -28,11 +28,11 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  display: block; /* Flex değil, block düzeni kullan */
 }
+
 
 h1 {
   font-size: 3.2em;
@@ -49,6 +49,7 @@ button {
   background-color: #FFD84D;
   cursor: pointer;
   transition: border-color 0.25s;
+  margin: 18px;
 }
 button:hover {
   border-color: #CE2829;
@@ -70,16 +71,61 @@ button:focus-visible {
     background-color: #FFD84D;
   }
 }
-.headerTitle{
-  font-family: "Londrina Solid";
+.headerTitle {
+  font-family: "Londrina Solid", sans-serif;
+  background-color: #CE2829; 
+  padding: 20px;
+  color: #fff;
+  text-align: center;
+  font-size: 24px;
+  width: 100%;
+  position: relative;  
+  z-index: 10;  
+}
+.footerContainer {
+  font-family: "Londrina Solid", sans-serif;
   background-color: #CE2829;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
 }
-.body-container{
+
+.footerLinks ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px 0;
   display: flex;
-  flex-direction: column;
-  text-align: left;
-  margin-left: 450px;
-  margin-right: 450px;
-  font-family: "BarlowRegular";
-  color: #5F5F5F;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
 }
+
+.footerLinks li {
+  font-size: 14px;
+}
+
+.footerDownload,
+.footerSocial,
+.footerDisclaimer {
+  margin: 10px 0;
+}
+
+.footerSocial .socialIcons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.socialIcon {
+  font-size: 20px;
+}
+
+.footerDisclaimer p {
+  font-size: 12px;
+  margin: 5px 0;
+}
+
+
+
+
+

@@ -8,56 +8,62 @@ export function OrderProvider({ children }) {
     dough: 'normal',
     toppings: [],
     count: 1,
-    basePrice: 85.50,
+    basePrice: 85.5,
   });
 
   const addTopping = (topping) => {
-    if (pizza.toppings.length < 10) {
-      setPizza({
-        ...pizza,
-        toppings: [...pizza.toppings, topping],
-      });
+    if (!pizza.toppings.includes(topping) && pizza.toppings.length < 10) {
+      setPizza((prev) => ({
+        ...prev,
+        toppings: [...prev.toppings, topping],
+      }));
     }
   };
 
   const removeTopping = (topping) => {
-    setPizza({
-      ...pizza,
-      toppings: pizza.toppings.filter((t) => t !== topping),
-    });
+    setPizza((prev) => ({
+      ...prev,
+      toppings: prev.toppings.filter((t) => t !== topping),
+    }));
   };
 
   const updateSize = (size) => {
-    setPizza({
-      ...pizza,
+    setPizza((prev) => ({
+      ...prev,
       size,
-    });
+    }));
+  };
+
+  const updateDough = (dough) => {
+    setPizza((prev) => ({
+      ...prev,
+      dough,
+    }));
   };
 
   const increaseCount = () => {
-    setPizza({
-      ...pizza,
-      count: pizza.count + 1,
-    });
+    setPizza((prev) => ({
+      ...prev,
+      count: prev.count + 1,
+    }));
   };
 
   const decreaseCount = () => {
     if (pizza.count > 1) {
-      setPizza({
-        ...pizza,
-        count: pizza.count - 1,
-      });
+      setPizza((prev) => ({
+        ...prev,
+        count: prev.count - 1,
+      }));
     }
   };
 
   const calculatePrice = () => {
-    const basePrice = pizza.basePrice;
-    const toppingsPrice = pizza.toppings.length * 5;
-    const sizeMultiplier = 
-      pizza.size === 'Küçük' ? 0.8 :
-      pizza.size === 'Büyük' ? 1.2 : 1;
-
-    return ((basePrice + toppingsPrice) * sizeMultiplier * pizza.count).toFixed(2);
+    const { basePrice, size, toppings, count } = pizza;
+    const sizeMultiplier =
+      size === 'Küçük' ? 0.8 : size === 'Büyük' ? 1.2 : 1;
+    const toppingsPrice = toppings.length * 5;
+    const totalPrice = (basePrice + toppingsPrice) * sizeMultiplier * count;
+    return totalPrice.toFixed(2);
   };
 
   return (
@@ -67,6 +73,7 @@ export function OrderProvider({ children }) {
         addTopping,
         removeTopping,
         updateSize,
+        updateDough,
         increaseCount,
         decreaseCount,
         calculatePrice,
@@ -84,4 +91,3 @@ export const useOrder = () => {
   }
   return context;
 };
-

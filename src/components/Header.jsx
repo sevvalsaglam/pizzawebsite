@@ -1,16 +1,11 @@
 import React from 'react';
 
-const Header = () => {
+const Header = ({ noBackground }) => {
   return (
     <header
       className="headerTitle"
       style={{
-        backgroundColor: '#CE2829',
-        padding: '20px',
-        color: '#fff',
-        textAlign: 'center',
-        fontSize: '24px',
-        width: '100%'
+        backgroundColor: noBackground ? 'transparent' : '#CE2829', // Arka planı kontrol et
       }}
     >
       <h1>Teknolojik Yemekler</h1>

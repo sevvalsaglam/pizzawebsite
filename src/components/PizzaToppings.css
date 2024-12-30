@@ -1,7 +1,7 @@
 /* Ek Malzeme Listesi için Düzenleme */
 .grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* Her satırda iki sütun */
+  grid-template-columns: repeat(3, 1fr); /* Her satırda iki sütun */
   gap: 24px; /* Sütunlar ve satırlar arasındaki boşluk */
   align-items: center;
 }

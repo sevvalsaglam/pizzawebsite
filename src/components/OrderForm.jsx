@@ -5,6 +5,7 @@ import "./PizzaCustomization.css";
 import "./PizzaToppings.css";
 import "./OrderSection.css";
 import { AlertCircle } from "react-feather";  // alertCircle'ı buradan import ettik
+import axios from "axios";
 
 const ToppingsList = ({ toppings, selectedToppings, onChange }) => (
   <div className="grid grid-cols-2 gap-x-24 gap-y-4">
@@ -119,15 +120,56 @@ const OrderForm = () => {
     return (basePrice + toppingsPrice + sizePrice) * count;
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    // Form doğrulama
     setSizeError(!pizza.size);
     setDoughError(!pizza.dough);
     setToppingError(selectedToppings.length < 4);
-
-    if (pizza.size && pizza.dough && selectedToppings.length >= 4) {
-      navigate("/success");
+  
+    if (!pizza.size || !pizza.dough || selectedToppings.length < 4) {
+      return; // Eğer doğrulama başarısızsa, işlemi sonlandır.
+    }
+  
+    // Sipariş verisi oluşturma
+    const orderData = {
+      size: pizza.size,
+      dough: pizza.dough,
+      toppings: selectedToppings,
+      note,
+      quantity: count,
+      totalPrice: calculateTotal(),
+    };
+  
+    try {
+      // Backend'e siparişi gönderme (Axios kullanılarak)
+      const response = await axios.post("http://localhost:8080/api/orders", orderData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true, // CORS sorununu çözmek için gerekliyse
+      });
+  
+      if (response.status === 200) {
+        // Başarılı durum: Başarı sayfasına yönlendirme
+        navigate("/success");
+      } else {
+        console.error("Sipariş gönderilirken bir hata oluştu: ", response.data);
+      }
+    } catch (error) {
+      // Hata yönetimi: Network hataları ve CORS hataları için ek bilgi
+      if (error.response) {
+        // Backend'den gelen yanıt hatası
+        console.error("Backend hatası: ", error.response.data);
+      } else if (error.request) {
+        // Backend'e bağlantı yapılamadığında
+        console.error("Backend'e bağlantı kurulamadı: ", error.request);
+      } else {
+        // Diğer hatalar
+        console.error("Hata:", error.message);
+      }
     }
   };
+  
 
   const updateSize = (value) => {
     setPizza((prev) => ({ ...prev, size: value }));
